@@ -52,6 +52,10 @@
               "target": "Package",
               "version": "[2.38.0.2, )"
             },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.1-beta1, )"
+            },
             "QuickGraph": {
               "target": "Package",
               "version": "[3.6.61119.7, )"

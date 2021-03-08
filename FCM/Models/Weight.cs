@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CognitiveMaps.FCM.Entities
+namespace CognitiveMaps.FCM.Models
 {
     /// <summary>
     /// Класс весов

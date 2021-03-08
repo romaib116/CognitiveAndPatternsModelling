@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CognitiveMaps.FCM.Interfaces;
 
-namespace CognitiveMaps.FCM.Entities
+namespace CognitiveMaps.FCM.Models
 {
     /// <summary>
     /// Абстрактный класс с типовой реализацией карты

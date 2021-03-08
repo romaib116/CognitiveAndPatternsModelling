@@ -23,3 +23,4 @@ C:\Users\Roman\source\repos\CognitiveMaps\bin\Debug\net5.0-windows\QuickGraph.Gr
 C:\Users\Roman\source\repos\CognitiveMaps\bin\Debug\net5.0-windows\QuickGraph.Serialization.dll
 C:\Users\Roman\source\repos\CognitiveMaps\bin\Debug\net5.0-windows\QuickGraph.dll
 C:\Users\Roman\source\repos\CognitiveMaps\obj\Debug\net5.0-windows\CognitiveMaps.csproj.CopyComplete
+C:\Users\Roman\source\repos\CognitiveMaps\bin\Debug\net5.0-windows\Newtonsoft.Json.dll

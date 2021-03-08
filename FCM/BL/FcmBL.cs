@@ -1,12 +1,12 @@
 ﻿using System;
-using CognitiveMaps.FCM.Entities;
+using CognitiveMaps.FCM.Models;
 
-namespace CognitiveMaps.FCM.Maps
+namespace CognitiveMaps.FCM.BL
 {
     /// <summary>
     /// Нечеткая когнитивная карта
     /// </summary>
-    public class FcmModel : Map
+    public class FcmBL : Map
     {
         public override void ImpactModel()
         {

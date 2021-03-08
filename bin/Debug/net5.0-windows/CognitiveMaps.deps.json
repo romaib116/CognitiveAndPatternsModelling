@@ -9,6 +9,7 @@
       "CognitiveMaps/1.0.0": {
         "dependencies": {
           "Graphviz": "2.38.0.2",
+          "Newtonsoft.Json": "13.0.1-beta1",
           "QuickGraph": "3.6.61119.7"
         },
         "runtime": {
@@ -20,6 +21,14 @@
           "lib/Graphviz.dll": {
             "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "Newtonsoft.Json/13.0.1-beta1": {
+        "runtime": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+            "assemblyVersion": "13.0.0.0",
+            "fileVersion": "13.0.1.25331"
           }
         }
       },
@@ -57,6 +66,13 @@
       "sha512": "sha512-MPtG+Mf0fvuwuL1b0+9BghMeE4QHgaXLvRDSxrEHngU2/cNjE1N6pljiOrLptyOt/LfML8F/NGlT6i8VGS628w==",
       "path": "graphviz/2.38.0.2",
       "hashPath": "graphviz.2.38.0.2.nupkg.sha512"
+    },
+    "Newtonsoft.Json/13.0.1-beta1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-XqyEqeyn0RVaYpgwbpTw6Es1rFJIa/BHn8TNv2V6KkxRFohfwzN1e9z2THfOXnRoI51vREtNE5GfQ6LND9m1Kg==",
+      "path": "newtonsoft.json/13.0.1-beta1",
+      "hashPath": "newtonsoft.json.13.0.1-beta1.nupkg.sha512"
     },
     "QuickGraph/3.6.61119.7": {
       "type": "package",

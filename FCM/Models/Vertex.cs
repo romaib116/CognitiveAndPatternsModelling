@@ -1,5 +1,5 @@
 ﻿
-namespace CognitiveMaps.FCM.Entities
+namespace CognitiveMaps.FCM.Models
 {
     /// <summary>
     /// Класс вершины
