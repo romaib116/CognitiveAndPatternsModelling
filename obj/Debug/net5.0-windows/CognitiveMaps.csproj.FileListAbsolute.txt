@@ -24,3 +24,11 @@ C:\Users\Roman\source\repos\CognitiveMaps\bin\Debug\net5.0-windows\QuickGraph.Se
 C:\Users\Roman\source\repos\CognitiveMaps\bin\Debug\net5.0-windows\QuickGraph.dll
 C:\Users\Roman\source\repos\CognitiveMaps\obj\Debug\net5.0-windows\CognitiveMaps.csproj.CopyComplete
 C:\Users\Roman\source\repos\CognitiveMaps\bin\Debug\net5.0-windows\Newtonsoft.Json.dll
+C:\Users\Roman\source\repos\CognitiveMaps\obj\Debug\net5.0-windows\Interop.Microsoft.Office.Interop.Excel.dll
+C:\Users\Roman\source\repos\CognitiveMaps\obj\Debug\net5.0-windows\CognitiveMaps.csproj.ResolveComReference.cache
+C:\Users\Roman\source\repos\CognitiveMaps\bin\Debug\net5.0-windows\ExcelDataReader.dll
+C:\Users\Roman\source\repos\CognitiveMaps\bin\Debug\net5.0-windows\ExcelDataReader.DataSet.dll
+C:\Users\Roman\source\repos\CognitiveMaps\bin\Debug\net5.0-windows\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\Roman\source\repos\CognitiveMaps\bin\Debug\net5.0-windows\System.Text.Encoding.CodePages.dll
+C:\Users\Roman\source\repos\CognitiveMaps\bin\Debug\net5.0-windows\runtimes\win\lib\netcoreapp2.0\System.Text.Encoding.CodePages.dll
+C:\Users\Roman\source\repos\CognitiveMaps\obj\Debug\net5.0-windows\CognitiveMaps.MAT.Views.DetailView.resources

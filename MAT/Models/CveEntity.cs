@@ -1,26 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CognitiveMaps.MAT.Models
+﻿namespace CognitiveMaps.MAT.Models
 {
     /// <summary>
     /// Сущность CVE
     /// </summary>
-    public class CveEntity
+    public class CveEntity : CommonVulnerability
     {
-        /// <summary>
-        /// Ид
-        /// </summary>
-        public string Id { get; set; }
-
-        /// <summary>
-        /// Ид CWE
-        /// </summary>
-        public string CWE { get; set; }
-
         /// <summary>
         /// Ссылка на описание уязвимости
         /// </summary>
@@ -29,7 +13,7 @@ namespace CognitiveMaps.MAT.Models
         /// <summary>
         /// Описание
         /// </summary>
-        public string Decription { get; set; }
+        public string Description { get; set; }
 
         #region Описание уязвимости по метрике CVSSV3
 
@@ -54,7 +38,7 @@ namespace CognitiveMaps.MAT.Models
         public string UserInteraction { get; set; }
 
         /// <summary>
-        /// Вияет ли уязвимость в одном уязвимом компоненте на ресурсы в компонентах, выходящих за пределы его области безопасности
+        /// Влияет ли уязвимость в одном уязвимом компоненте на ресурсы в компонентах, выходящих за пределы его области безопасности
         /// </summary>
         public string Scope { get; set; }
 

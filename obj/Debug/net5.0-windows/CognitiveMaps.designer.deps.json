@@ -6,6 +6,25 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v5.0": {
+      "ExcelDataReader/3.7.0-develop00306": {
+        "runtime": {
+          "lib/netstandard2.0/ExcelDataReader.dll": {
+            "assemblyVersion": "3.7.0.0",
+            "fileVersion": "3.7.0.0"
+          }
+        }
+      },
+      "ExcelDataReader.DataSet/3.7.0-develop00306": {
+        "dependencies": {
+          "ExcelDataReader": "3.7.0-develop00306"
+        },
+        "runtime": {
+          "lib/netstandard2.0/ExcelDataReader.DataSet.dll": {
+            "assemblyVersion": "3.7.0.0",
+            "fileVersion": "3.7.0.0"
+          }
+        }
+      },
       "Graphviz/2.38.0.2": {
         "runtime": {
           "lib/Graphviz.dll": {
@@ -14,6 +33,7 @@
           }
         }
       },
+      "Microsoft.NETCore.Platforms/6.0.0-preview.1.21102.12": {},
       "Newtonsoft.Json/13.0.1-beta1": {
         "runtime": {
           "lib/netstandard2.0/Newtonsoft.Json.dll": {
@@ -41,16 +61,65 @@
             "fileVersion": "3.6.61114.0"
           }
         }
+      },
+      "System.Runtime.CompilerServices.Unsafe/6.0.0-preview.1.21102.12": {
+        "runtime": {
+          "lib/netcoreapp2.0/System.Runtime.CompilerServices.Unsafe.dll": {
+            "assemblyVersion": "6.0.0.0",
+            "fileVersion": "6.0.21.10212"
+          }
+        }
+      },
+      "System.Text.Encoding.CodePages/6.0.0-preview.1.21102.12": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "6.0.0-preview.1.21102.12",
+          "System.Runtime.CompilerServices.Unsafe": "6.0.0-preview.1.21102.12"
+        },
+        "runtime": {
+          "lib/netstandard2.0/System.Text.Encoding.CodePages.dll": {
+            "assemblyVersion": "6.0.0.0",
+            "fileVersion": "6.0.21.10212"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/win/lib/netcoreapp2.0/System.Text.Encoding.CodePages.dll": {
+            "rid": "win",
+            "assetType": "runtime",
+            "assemblyVersion": "6.0.0.0",
+            "fileVersion": "6.0.21.10212"
+          }
+        }
       }
     }
   },
   "libraries": {
+    "ExcelDataReader/3.7.0-develop00306": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-aYy+wPP8qTw09jF0bzUDZj3AL4VZWqmGJa7JGoXh6rGNkXtpAJWzA90ILMC1vdHNAaflDIZ1EMcBaM//wv204w==",
+      "path": "exceldatareader/3.7.0-develop00306",
+      "hashPath": "exceldatareader.3.7.0-develop00306.nupkg.sha512"
+    },
+    "ExcelDataReader.DataSet/3.7.0-develop00306": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-N0HBz+CQJwsB8ecehcd+qACcywI4kkR2wabCkW8HglJ5y6BKsYpvXvWmN0rh3ubQHqtScEo2hH2tjz7Uqb5bsw==",
+      "path": "exceldatareader.dataset/3.7.0-develop00306",
+      "hashPath": "exceldatareader.dataset.3.7.0-develop00306.nupkg.sha512"
+    },
     "Graphviz/2.38.0.2": {
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-MPtG+Mf0fvuwuL1b0+9BghMeE4QHgaXLvRDSxrEHngU2/cNjE1N6pljiOrLptyOt/LfML8F/NGlT6i8VGS628w==",
       "path": "graphviz/2.38.0.2",
       "hashPath": "graphviz.2.38.0.2.nupkg.sha512"
+    },
+    "Microsoft.NETCore.Platforms/6.0.0-preview.1.21102.12": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-mdF/p3nqdGOOzMGSiO1nf6M0/LmJziyfDW1H16TYwZvj++4+bC4VzH7BEUyX8IjcXJCxvO2uTfym/ZeNJVGthA==",
+      "path": "microsoft.netcore.platforms/6.0.0-preview.1.21102.12",
+      "hashPath": "microsoft.netcore.platforms.6.0.0-preview.1.21102.12.nupkg.sha512"
     },
     "Newtonsoft.Json/13.0.1-beta1": {
       "type": "package",
@@ -65,6 +134,20 @@
       "sha512": "sha512-crtYNiFcYFtYbmbEfdYsdGw5M3923OO5ZZD25K+WeLPgTp/q4oq3U/FVrbaOK5+Jg8UJDmoZ6sqAVion4RgXCA==",
       "path": "quickgraph/3.6.61119.7",
       "hashPath": "quickgraph.3.6.61119.7.nupkg.sha512"
+    },
+    "System.Runtime.CompilerServices.Unsafe/6.0.0-preview.1.21102.12": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-OpeMUeevV3isOGNeiEwuBNq4fNA4B5SuFb941AxzKyjtddknFCV0ykIxyIA4Xxy5O3NjHmnfzqdv4thfC76mwg==",
+      "path": "system.runtime.compilerservices.unsafe/6.0.0-preview.1.21102.12",
+      "hashPath": "system.runtime.compilerservices.unsafe.6.0.0-preview.1.21102.12.nupkg.sha512"
+    },
+    "System.Text.Encoding.CodePages/6.0.0-preview.1.21102.12": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-49GKCJ00hrYxEQbsr3pRBettXZ0c2Qv+KByCoJAC7wiwwnHG95ql/SnTl1VFxs3RhYg2+7VWxoKVDi1mg1hT4w==",
+      "path": "system.text.encoding.codepages/6.0.0-preview.1.21102.12",
+      "hashPath": "system.text.encoding.codepages.6.0.0-preview.1.21102.12.nupkg.sha512"
     }
   }
 }

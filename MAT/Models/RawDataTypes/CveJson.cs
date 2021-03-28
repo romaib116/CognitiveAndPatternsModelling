@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 /// <summary>
 /// Набор классов описывающий сериализацию/Десериализацию JSON CVE
 /// </summary>
-namespace CognitiveMaps.MAT.Models
+namespace CognitiveMaps.MAT.Models.RawDataTypes
 {
     /// <summary>
     /// Корень JSON

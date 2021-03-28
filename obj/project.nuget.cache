@@ -1,12 +1,17 @@
 {
   "version": 2,
-  "dgSpecHash": "p8syoBTtJ23c78MfsfI9xSoev+QuwNNqq2ve17UFDEOdUg5Bbdf7Vw0qTyksdkdHXbgqeXpnF4sQfe+TMk97rA==",
+  "dgSpecHash": "81pWO4erUlYjGtIBgXF82L/ofhxtmh7OL1GwuKJ3k87y6nUUqSuO0V28idlSRfU7q4ysmjaCkAiMpbkaQYvfPg==",
   "success": true,
   "projectFilePath": "C:\\Users\\Roman\\source\\repos\\CognitiveMaps\\CognitiveMaps.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Roman\\.nuget\\packages\\exceldatareader\\3.7.0-develop00306\\exceldatareader.3.7.0-develop00306.nupkg.sha512",
+    "C:\\Users\\Roman\\.nuget\\packages\\exceldatareader.dataset\\3.7.0-develop00306\\exceldatareader.dataset.3.7.0-develop00306.nupkg.sha512",
     "C:\\Users\\Roman\\.nuget\\packages\\graphviz\\2.38.0.2\\graphviz.2.38.0.2.nupkg.sha512",
+    "C:\\Users\\Roman\\.nuget\\packages\\microsoft.netcore.platforms\\6.0.0-preview.1.21102.12\\microsoft.netcore.platforms.6.0.0-preview.1.21102.12.nupkg.sha512",
     "C:\\Users\\Roman\\.nuget\\packages\\newtonsoft.json\\13.0.1-beta1\\newtonsoft.json.13.0.1-beta1.nupkg.sha512",
-    "C:\\Users\\Roman\\.nuget\\packages\\quickgraph\\3.6.61119.7\\quickgraph.3.6.61119.7.nupkg.sha512"
+    "C:\\Users\\Roman\\.nuget\\packages\\quickgraph\\3.6.61119.7\\quickgraph.3.6.61119.7.nupkg.sha512",
+    "C:\\Users\\Roman\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0-preview.1.21102.12\\system.runtime.compilerservices.unsafe.6.0.0-preview.1.21102.12.nupkg.sha512",
+    "C:\\Users\\Roman\\.nuget\\packages\\system.text.encoding.codepages\\6.0.0-preview.1.21102.12\\system.text.encoding.codepages.6.0.0-preview.1.21102.12.nupkg.sha512"
   ],
   "logs": [
     {
