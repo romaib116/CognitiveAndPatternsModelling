@@ -11,12 +11,7 @@ namespace CognitiveMaps.FCM.Models
         /// <summary>
         /// Матрица весов
         /// </summary>
-        public double[,] WeightMatrix { 
-            get 
-            {
-                return _weightMatrix;
-            } 
-        }
+        public double[,] WeightMatrix => _weightMatrix;
 
         /// <summary>
         /// Инициализация матрицы весов

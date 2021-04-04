@@ -7,7 +7,7 @@
     <Compile Update="MAT\Views\DetailView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="MAT\Views\ThreatsView.cs">
+    <Compile Update="MAT\Views\VulnerabilityView.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

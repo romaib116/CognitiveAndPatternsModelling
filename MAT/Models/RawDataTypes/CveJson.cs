@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 /// <summary>
 /// Набор классов описывающий сериализацию/Десериализацию JSON CVE
 /// </summary>
-namespace CognitiveMaps.MAT.Models.RawDataTypes
+namespace CognitiveMaps.MAT.Models.RawDataTypes.CveJson
 {
     /// <summary>
-    /// Корень JSON
+    /// Классы описывающие структуру Json CVE
     /// </summary>
     public class CveJson
     {

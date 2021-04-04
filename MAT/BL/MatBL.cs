@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using System.Data;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CognitiveMaps.MAT.BL
 {
@@ -17,7 +18,7 @@ namespace CognitiveMaps.MAT.BL
     /// </summary>
     public class MatBL 
     {
-        public DataTable GetBduDataTable(List<CommonVulnerability> vulnList)
+        public DataTable GetUserDataTable(List<CommonVulnerability> vulnList)
         {
             var result = new DataTable("UserVulns");
             DataColumn column;
@@ -28,6 +29,7 @@ namespace CognitiveMaps.MAT.BL
             column.DataType = Type.GetType("System.String");
             column.ColumnName = "Идентификатор";
             column.ReadOnly = true;
+            column.AutoIncrement = false;
             column.Unique = true;
             result.Columns.Add(column);
 
@@ -40,7 +42,6 @@ namespace CognitiveMaps.MAT.BL
             column.Unique = false;
             result.Columns.Add(column);
 
-
             foreach (var vuln in vulnList)
             {
                 try
@@ -52,7 +53,103 @@ namespace CognitiveMaps.MAT.BL
                 }
                 catch
                 {
-                    throw new DuplicateNameException("Нельзя добавлять 2 раза подряд одно и тоже");
+                    throw new DuplicateNameException("Нельзя создавать дубликаты");
+                }
+            }
+            return result;
+        }
+
+        public DataTable GetCweCapecDataTable(List<ProcessedCweCapec> cweCapecsList)
+        {
+            var result = new DataTable("CweCapec");
+            DataColumn column;
+            DataRow row;
+
+            //1
+            column = new DataColumn();
+            column.DataType = Type.GetType("System.String");
+            column.ColumnName = "Cwe";
+            column.ReadOnly = true;
+            column.Unique = false;
+            column.AutoIncrement = false;
+            result.Columns.Add(column);
+
+            //5
+            column = new DataColumn();
+            column.DataType = Type.GetType("System.String");
+            column.ColumnName = "Capec";
+            column.AutoIncrement = false;
+            column.ReadOnly = false;
+            column.Unique = false;
+            result.Columns.Add(column);
+
+            foreach (var cweCapec in cweCapecsList)
+            {
+                row = result.NewRow();
+                row["CWE"] = cweCapec.Cwe;
+                row["Capec"] = String.Join(", ", cweCapec.CapecList.Select(i => i.Id));
+                result.Rows.Add(row);
+            }
+            return result;
+        }
+
+
+        /// <summary>
+        /// Получаем связи между пользовательскими CWE и Capec
+        /// </summary>
+        /// <param name="userList"> Пользовательски список уязвимостей </param>
+        /// <param name="capecList"> Лист Capec </param>
+        /// <returns></returns>
+        public List<ProcessedCweCapec> GetProcessedCweCapecs (List<CommonVulnerability> userList, List<CapecEntity> capecList)
+        {
+            var result = new List<ProcessedCweCapec>();
+            //Проверка на передачу пустых списков (мало ли)
+            if (userList != null && capecList != null)
+            {
+                //Перебираем по каждой пользовательской уязвимости
+                foreach (var vuln in userList)
+                {
+                    //Заходим в каждый CWE, для того чтобы от него построить связь до Capec'ов
+                    foreach (var currentCwe in vuln.Cwe)
+                    {
+                        //Проверка на существование текущего Cwe
+                        //А также если в нашем результирующем списке еще нет текущего cwe
+                        if (!string.IsNullOrWhiteSpace(currentCwe) && !currentCwe.Equals("NVD-CWE-Other") && 
+                            !result.Select(i => i.Cwe).Contains(currentCwe))
+                        {
+                            //Находим связь
+                            var capecs = FindRelationsCweCapec(currentCwe, capecList);
+                            //Если она есть
+                            if (capecs.Count != 0)
+                            {
+                                result.Add(new ProcessedCweCapec
+                                {
+                                    Cwe = currentCwe,
+                                    CapecList = capecs
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+            return result;
+        }
+
+
+        /// <summary>
+        /// Найти связь между текущим CWE и выходящими из него Capec
+        /// </summary>
+        /// <param name="currentCwe"> CWE </param>
+        /// <param name="capecList"> Лист Capec, по которому ищем </param>
+        /// <returns></returns>
+        private List<CapecEntity> FindRelationsCweCapec (string currentCwe, List<CapecEntity> capecList)
+        {
+            var result = new List<CapecEntity>();
+            foreach (var capec in capecList)
+            {
+                if (capec.Cwe.Contains(currentCwe))
+                {
+                    result.Add(capec);
                 }
             }
             return result;

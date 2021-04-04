@@ -123,7 +123,7 @@ namespace CognitiveMaps.MAT.Models.RawDataTypes
         /// <summary>
         /// Лист Наименование ОС и тип аппаратной платформы
         /// </summary>
-        public IList<string> OperationSystemList { get; private set;  }
+        public IList<string> OperationSystemList { get; private set; }
 
         /// <summary>
         /// Лист Класс уязвимости
@@ -178,7 +178,7 @@ namespace CognitiveMaps.MAT.Models.RawDataTypes
         /// <summary>
         /// Лист Идентификаторы других систем описаний уязвимости
         /// </summary>
-        public IList<string> IdsOtherVulnerabilitySystemsList { get; private set;  }
+        public IList<string> IdsOtherVulnerabilitySystemsList { get; private set; }
 
         /// <summary>
         /// Лист Прочая информация

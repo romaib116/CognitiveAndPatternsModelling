@@ -1,8 +1,7 @@
 ﻿using CognitiveMaps.MAT.Models;
-using System;
-using System.Linq;
-using System.Collections.Generic;
 using CognitiveMaps.MAT.Models.RawDataTypes;
+using System;
+using System.Collections.Generic;
 using System.Data;
 
 namespace CognitiveMaps.MAT.BL
@@ -17,7 +16,7 @@ namespace CognitiveMaps.MAT.BL
         /// </summary>
         /// <param name="filePath"></param>
         /// <returns></returns>
-        public List<BduEntity> GetBduList (string filePath)
+        public List<BduEntity> GetBduList(string filePath)
         {
             try
             {
@@ -34,78 +33,100 @@ namespace CognitiveMaps.MAT.BL
         /// </summary>
         /// <param name="bduEntities"></param>
         /// <returns></returns>
-        public DataTable GetBduDataTable (List<BduEntity> bduEntities)
+        public DataTable GetBduDataTable(List<BduEntity> bduEntities)
         {
             var result = new DataTable("Bdu");
             DataColumn column;
             DataRow row;
 
-            //1
+            //0
             column = new DataColumn();
-            column.DataType = Type.GetType("System.String");
-            column.ColumnName = "Идентификатор";
+            column.DataType = Type.GetType("System.Int32");
+            column.ColumnName = "id";
             column.ReadOnly = true;
             column.Unique = true;
             result.Columns.Add(column);
 
+            //1
+            column = new DataColumn
+            {
+                DataType = Type.GetType("System.String"),
+                ColumnName = "Идентификатор",
+                ReadOnly = true,
+                Unique = true
+            };
+            result.Columns.Add(column);
+
             //2
-            column = new DataColumn();
-            column.DataType = Type.GetType("System.String");
-            column.ColumnName = "Наименование_уязвимости";
-            column.AutoIncrement = false;
-            column.ReadOnly = false;
-            column.Unique = false;
+            column = new DataColumn
+            {
+                DataType = Type.GetType("System.String"),
+                ColumnName = "Наименование_уязвимости",
+                AutoIncrement = false,
+                ReadOnly = false,
+                Unique = false
+            };
             result.Columns.Add(column);
 
             //3
-            column = new DataColumn();
-            column.DataType = Type.GetType("System.String");
-            column.ColumnName = "Описание_уязвимости";
-            column.AutoIncrement = false;
-            column.ReadOnly = false;
-            column.Unique = false;
+            column = new DataColumn
+            {
+                DataType = Type.GetType("System.String"),
+                ColumnName = "Описание_уязвимости",
+                AutoIncrement = false,
+                ReadOnly = false,
+                Unique = false
+            };
             result.Columns.Add(column);
 
 
             //4
-            column = new DataColumn();
-            column.DataType = Type.GetType("System.String");
-            column.ColumnName = "Дата_выявления";
-            column.AutoIncrement = false;
-            column.ReadOnly = false;
-            column.Unique = false;
+            column = new DataColumn
+            {
+                DataType = Type.GetType("System.String"),
+                ColumnName = "Дата_выявления",
+                AutoIncrement = false,
+                ReadOnly = false,
+                Unique = false
+            };
             result.Columns.Add(column);
 
 
             //5
-            column = new DataColumn();
-            column.DataType = Type.GetType("System.String");
-            column.ColumnName = "Статус_уязвимости";
-            column.AutoIncrement = false;
-            column.ReadOnly = false;
-            column.Unique = false;
+            column = new DataColumn
+            {
+                DataType = Type.GetType("System.String"),
+                ColumnName = "Статус_уязвимости",
+                AutoIncrement = false,
+                ReadOnly = false,
+                Unique = false
+            };
             result.Columns.Add(column);
 
             //6
-            column = new DataColumn();
-            column.DataType = Type.GetType("System.String");
-            column.ColumnName = "CWE";
-            column.AutoIncrement = false;
-            column.ReadOnly = false;
-            column.Unique = false;
+            column = new DataColumn
+            {
+                DataType = Type.GetType("System.String"),
+                ColumnName = "CWE",
+                AutoIncrement = false,
+                ReadOnly = false,
+                Unique = false
+            };
             result.Columns.Add(column);
 
-
+            int iterator = 0;
             foreach (var bdu in bduEntities)
             {
                 row = result.NewRow();
+                row["id"] = iterator;
                 row["Идентификатор"] = bdu.Id;
                 row["Наименование_уязвимости"] = bdu.VulnerabilityName;
                 row["Описание_уязвимости"] = bdu.DescriptionVulnerability;
                 row["Дата_выявления"] = bdu.DataDetection;
                 row["Статус_уязвимости"] = bdu.StatusVulnerability;
-                row["CWE"] = String.Join(", ", bdu.Cwe);
+                row["CWE"] = string.Join(", ", bdu.Cwe);
                 result.Rows.Add(row);
+                iterator++;
             }
             return result;
         }

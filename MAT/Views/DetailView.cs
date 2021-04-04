@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CognitiveMaps.MAT.Models;
+using CognitiveMaps.MAT.Models.Capec;
 
 namespace CognitiveMaps.MAT.Views
 {
@@ -17,6 +18,7 @@ namespace CognitiveMaps.MAT.Views
         private DetailPresenter _presenter;
         private CveEntity CveEntity;
         private BduEntity BduEntity;
+        private CapecEntity CapecEntity;
 
         /// <summary>
         /// Презентер
@@ -46,15 +48,21 @@ namespace CognitiveMaps.MAT.Views
             BduEntity = bduEntity;
         }
 
+        public DetailView(CapecEntity capecEntity)
+        {
+            InitializeComponent();
+            CapecEntity = capecEntity;
+        }
+
 
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            //Если загрузили CVE, то показываем про него
+            //Далее отображение информации зависит от того, каким конструктором воспользовались при создании объекта формы
+            textBoxDetail.TabStop = false;
             if (CveEntity != null)
             {
                 groupBoxDetail.Text = CveEntity.Id;
-                textBoxDetail.TabStop = false;
                 textBoxDetail.Text = string.Format(
                     "Cwe: {0}" +
                     Environment.NewLine +
@@ -95,7 +103,6 @@ namespace CognitiveMaps.MAT.Views
             if (BduEntity != null)
             {
                 groupBoxDetail.Text = BduEntity.Id;
-                textBoxDetail.TabStop = false;
                 textBoxDetail.Text = string.Format(
                     "Cwe: {0}" +
                     Environment.NewLine +
@@ -133,7 +140,91 @@ namespace CognitiveMaps.MAT.Views
                     );
             }
 
+
+            if (CapecEntity != null)
+            {
+                groupBoxDetail.Text = CapecEntity.Id;
+                textBoxDetail.Text = string.Format(
+                    "Cwe: {0}" +
+                    Environment.NewLine +
+                    "Описание: {1}" +
+                    Environment.NewLine +
+                    "Вероятность атаки {2}" +
+                    Environment.NewLine +
+                    "Серьезность атаки {3}" +
+                    Environment.NewLine +
+                    "Связанные шаблоны атак:" +
+                    Environment.NewLine +
+                    "{4}" +
+                    Environment.NewLine +
+                    "Пошаговый процесс выполнения:" +
+                    Environment.NewLine +
+                    "{5}" +
+                    Environment.NewLine +
+                    "Предпосылки:" +
+                    Environment.NewLine +
+                    "{6}" +
+                    Environment.NewLine +
+                    "Необходимые навыки:" +
+                    Environment.NewLine +
+                    "{7}" +
+                    Environment.NewLine +
+                    "Последствия" +
+                    Environment.NewLine +
+                    "{8}",
+
+                    string.Join(", ", CapecEntity.Cwe),
+                    CapecEntity.Description,
+                    CapecEntity.LikelihoodAttack,
+                    CapecEntity.TypicalSeverity,
+                    ShowRelatedAttackPatterns(CapecEntity.RelatedAttackPatterns),
+                    ShowExecutionFlow(CapecEntity.ExecutionFlow),
+                    string.Join(", ", CapecEntity.Prerequisites),
+                    ShowSkillsReq(CapecEntity.SkillsRequireds),
+                    ShowConsequences(CapecEntity.Consequences)
+                    );
+            }
+
+
+        }
+        private string ShowRelatedAttackPatterns(List<RelatedAttackPattern> relatedAttackPatterns)
+        {
+            string result = string.Empty;
+            foreach (var pattern in relatedAttackPatterns)
+            {
+                result += pattern.CapecId + " - " +pattern.Nature + "; ";
+            }
+            return result;
         }
 
+        private string ShowExecutionFlow(ExecutionFlow executionFlow)
+        {
+            string result = string.Empty;
+            foreach (var step in executionFlow.AttackSteps)
+            {
+                result += step.StepId + " - " + step.Phase + " - " + step.Description + ":" + string.Join(", ", step.Techniques)+Environment.NewLine;
+            }
+            return result;
+        }
+
+        private string ShowSkillsReq(List<SkillsRequired> skillsRequireds)
+        {
+            string result = string.Empty;
+            foreach (var skill in skillsRequireds)
+            {
+                result += skill.SkillLevel + " - " + skill.Description+Environment.NewLine;
+            }
+            return result;
+        }
+
+        private string ShowConsequences (List<Consequence> consequences)
+        {
+            string result = string.Empty;
+            foreach (var conseq in consequences)
+            {
+                result += "Scopes " + string.Join(", ", conseq.Scopes) + "Impacts " + string.Join(", ", conseq.Impacts);
+            }
+            return result;
+        }
     }
 }

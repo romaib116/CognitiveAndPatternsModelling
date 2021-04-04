@@ -1,5 +1,5 @@
 ﻿using CognitiveMaps.MAT.Models;
-using CognitiveMaps.MAT.Models.RawDataTypes;
+using CognitiveMaps.MAT.Models.RawDataTypes.CveJson;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -107,11 +107,19 @@ namespace CognitiveMaps.MAT.BL
 
 
 
-        public DataTable GetBduDataTable (List<CveEntity> cveEntities)
+        public DataTable GetCveDataTable (List<CveEntity> cveEntities)
         {
             var result = new DataTable("Cve");
             DataColumn column;
             DataRow row;
+
+            //0
+            column = new DataColumn();
+            column.DataType = Type.GetType("System.Int32");
+            column.ColumnName = "id";
+            column.ReadOnly = true;
+            column.Unique = true;
+            result.Columns.Add(column);
 
             //1
             column = new DataColumn();
@@ -126,7 +134,7 @@ namespace CognitiveMaps.MAT.BL
             column.DataType = Type.GetType("System.String");
             column.ColumnName = "Описание_уязвимости";
             column.AutoIncrement = false;
-            column.ReadOnly = false;
+            column.ReadOnly = true;
             column.Unique = false;
             result.Columns.Add(column);
 
@@ -135,7 +143,7 @@ namespace CognitiveMaps.MAT.BL
             column.DataType = Type.GetType("System.String");
             column.ColumnName = "Дата_выявления";
             column.AutoIncrement = false;
-            column.ReadOnly = false;
+            column.ReadOnly = true;
             column.Unique = false;
             result.Columns.Add(column);
 
@@ -145,7 +153,7 @@ namespace CognitiveMaps.MAT.BL
             column.DataType = Type.GetType("System.String");
             column.ColumnName = "Уязвимое_место";
             column.AutoIncrement = false;
-            column.ReadOnly = false;
+            column.ReadOnly = true;
             column.Unique = false;
             result.Columns.Add(column);
 
@@ -154,20 +162,22 @@ namespace CognitiveMaps.MAT.BL
             column.DataType = Type.GetType("System.String");
             column.ColumnName = "CWE";
             column.AutoIncrement = false;
-            column.ReadOnly = false;
+            column.ReadOnly = true;
             column.Unique = false;
             result.Columns.Add(column);
 
-
+            int iterator = 0;
             foreach (var cve in cveEntities)
             {
                 row = result.NewRow();
+                row["id"] = iterator;
                 row["Идентификатор"] = cve.Id;
                 row["Описание_Уязвимости"] = cve.Description;
                 row["Дата_Выявления"] = cve.PublishedDate;
                 row["Уязвимое_Место"] = cve.AttackVector;
                 row["CWE"] = String.Join(", ", cve.Cwe);
                 result.Rows.Add(row);
+                iterator++;
             }
             return result;
         }
