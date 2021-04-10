@@ -68,18 +68,6 @@ namespace CognitiveMaps.MAT.BL
             };
             result.Columns.Add(column);
 
-            //3
-            column = new DataColumn
-            {
-                DataType = Type.GetType("System.String"),
-                ColumnName = "Описание_уязвимости",
-                AutoIncrement = false,
-                ReadOnly = false,
-                Unique = false
-            };
-            result.Columns.Add(column);
-
-
             //4
             column = new DataColumn
             {
@@ -121,7 +109,6 @@ namespace CognitiveMaps.MAT.BL
                 row["id"] = iterator;
                 row["Идентификатор"] = bdu.Id;
                 row["Наименование_уязвимости"] = bdu.VulnerabilityName;
-                row["Описание_уязвимости"] = bdu.DescriptionVulnerability;
                 row["Дата_выявления"] = bdu.DataDetection;
                 row["Статус_уязвимости"] = bdu.StatusVulnerability;
                 row["CWE"] = string.Join(", ", bdu.Cwe);

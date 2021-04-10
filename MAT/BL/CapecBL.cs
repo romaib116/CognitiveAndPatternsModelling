@@ -89,6 +89,15 @@ namespace CognitiveMaps.MAT.BL
             column.Unique = false;
             result.Columns.Add(column);
 
+            //6
+            column = new DataColumn();
+            column.DataType = Type.GetType("System.String");
+            column.ColumnName = "Taxonomy";
+            column.AutoIncrement = false;
+            column.ReadOnly = true;
+            column.Unique = false;
+            result.Columns.Add(column);
+
             int iterator = 0;
             foreach (var capec in capecList)
             {
@@ -99,8 +108,24 @@ namespace CognitiveMaps.MAT.BL
                 row["Вероятность"] = capec.LikelihoodAttack;
                 row["Серьезность"] = capec.TypicalSeverity;
                 row["CWE"] = string.Join("; ", capec.Cwe);
+                row["Taxonomy"] = GetTaxonomies(capec);
                 result.Rows.Add(row);
                 iterator++;
+            }
+            return result;
+        }
+
+        private string GetTaxonomies(CapecEntity capec)
+        {
+            string result = string.Empty;
+            if (capec.TaxonomyMappings != null && capec.TaxonomyMappings.Count > 0)
+            {
+                foreach (var tax in capec.TaxonomyMappings)
+                {
+                    result += tax.Name + " Id " + tax.EntryId + ", ";
+                }
+                if (result[result.Length - 2] == ',' && result[result.Length - 1] == ' ')
+                    result = result.Remove(result.Length - 2);
             }
             return result;
         }
@@ -136,8 +161,10 @@ namespace CognitiveMaps.MAT.BL
                 {
                     Id = Convert.ToString(pattern.ID),
                     Description = FillDescription(pattern),
-                    LikelihoodAttack = pattern.Items[GetIndexByType(pattern, ItemsChoiceType.Likelihood_Of_Attack)].ToString(),
-                    TypicalSeverity = pattern.Items[GetIndexByType(pattern, ItemsChoiceType.Typical_Severity)].ToString(),
+                    LikelihoodAttack = string.IsNullOrEmpty(pattern.Items[GetIndexByType(pattern, ItemsChoiceType.Likelihood_Of_Attack)] as string) ? 
+                        string.Empty : pattern.Items[GetIndexByType(pattern, ItemsChoiceType.Likelihood_Of_Attack)].ToString(),
+                    TypicalSeverity = string.IsNullOrEmpty(pattern.Items[GetIndexByType(pattern, ItemsChoiceType.Typical_Severity)] as string) ? 
+                        string.Empty : pattern.Items[GetIndexByType(pattern, ItemsChoiceType.Typical_Severity)].ToString(),
                     RelatedAttackPatterns = FillRelatedAttackPatterns(pattern),
                     ExecutionFlow = FillExecutionFlow(pattern),
                     Prerequisites = FillPrerequisites(pattern),

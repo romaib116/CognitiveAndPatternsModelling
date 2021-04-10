@@ -66,23 +66,33 @@ namespace CognitiveMaps.MAT.Views
                 textBoxDetail.Text = string.Format(
                     "Cwe: {0}" +
                     Environment.NewLine +
+                    Environment.NewLine +
                     "Описание: {1}" +
+                    Environment.NewLine +
                     Environment.NewLine +
                     "Вектор атаки: {2}" +
                     Environment.NewLine +
+                    Environment.NewLine +
                     "Сложность проведения: {3}" +
+                    Environment.NewLine +
                     Environment.NewLine +
                     "Необходимы привелегии: {4}" +
                     Environment.NewLine +
+                    Environment.NewLine +
                     "Взаимодействие с пользователем: {5}" +
+                    Environment.NewLine +
                     Environment.NewLine +
                     "Объем: {6}" +
                     Environment.NewLine +
+                    Environment.NewLine +
                     "Влияние на конфиденциальность: {7}" +
+                    Environment.NewLine +
                     Environment.NewLine +
                     "Влияние на целостность: {8}" +
                     Environment.NewLine +
+                    Environment.NewLine +
                     "Влияние на доступность: {9}" +
+                    Environment.NewLine +
                     Environment.NewLine +
                     "Дата публикации: {10}",
 
@@ -106,23 +116,33 @@ namespace CognitiveMaps.MAT.Views
                 textBoxDetail.Text = string.Format(
                     "Cwe: {0}" +
                     Environment.NewLine +
+                    Environment.NewLine +
                     "Описание: {1}" +
+                    Environment.NewLine +
                     Environment.NewLine +
                     "Класс уязвимости: {2}" +
                     Environment.NewLine +
+                    Environment.NewLine +
                     "Наличие эксплоита: {3}" +
+                    Environment.NewLine +
                     Environment.NewLine +
                     "Статус уязвимости: {4}" +
                     Environment.NewLine +
+                    Environment.NewLine +
                     "Информация об устранении: {5}" +
+                    Environment.NewLine +
                     Environment.NewLine +
                     "Возможные меры по устранению: {6}" +
                     Environment.NewLine +
+                    Environment.NewLine +
                     "Уровень опасности: {7}" +
+                    Environment.NewLine +
                     Environment.NewLine +
                     "Cvss2: {8}" +
                     Environment.NewLine +
+                    Environment.NewLine +
                     "Cvss3: {9}" +
+                    Environment.NewLine +
                     Environment.NewLine +
                     "Дата вявления: {10}",
 
@@ -147,15 +167,18 @@ namespace CognitiveMaps.MAT.Views
                 textBoxDetail.Text = string.Format(
                     "Cwe: {0}" +
                     Environment.NewLine +
+                    Environment.NewLine +
                     "Описание: {1}" +
+                    Environment.NewLine +
                     Environment.NewLine +
                     "Вероятность атаки {2}" +
                     Environment.NewLine +
+                    Environment.NewLine +
                     "Серьезность атаки {3}" +
                     Environment.NewLine +
-                    "Связанные шаблоны атак:" +
                     Environment.NewLine +
-                    "{4}" +
+                    "Связанные шаблоны атак: {4}" +
+                    Environment.NewLine +
                     Environment.NewLine +
                     "Пошаговый процесс выполнения:" +
                     Environment.NewLine +
@@ -163,9 +186,11 @@ namespace CognitiveMaps.MAT.Views
                     Environment.NewLine +
                     "Предпосылки:" +
                     Environment.NewLine +
+                    Environment.NewLine +
                     "{6}" +
                     Environment.NewLine +
                     "Необходимые навыки:" +
+                    Environment.NewLine +
                     Environment.NewLine +
                     "{7}" +
                     Environment.NewLine +

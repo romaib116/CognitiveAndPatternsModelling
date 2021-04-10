@@ -16,7 +16,7 @@ namespace CognitiveMaps.MAT.BL
     /// <summary>
     /// Логика работы с уязвимостями выбранными пользователем
     /// </summary>
-    public class MatBL 
+    public class MatBL
     {
         public DataTable GetUserDataTable(List<CommonVulnerability> vulnList)
         {
@@ -74,7 +74,7 @@ namespace CognitiveMaps.MAT.BL
             column.AutoIncrement = false;
             result.Columns.Add(column);
 
-            //5
+            //2
             column = new DataColumn();
             column.DataType = Type.GetType("System.String");
             column.ColumnName = "Capec";
@@ -100,7 +100,7 @@ namespace CognitiveMaps.MAT.BL
         /// <param name="userList"> Пользовательски список уязвимостей </param>
         /// <param name="capecList"> Лист Capec </param>
         /// <returns></returns>
-        public List<ProcessedCweCapec> GetProcessedCweCapecs (List<CommonVulnerability> userList, List<CapecEntity> capecList)
+        public List<ProcessedCweCapec> GetProcessedCweCapecs(List<CommonVulnerability> userList, List<CapecEntity> capecList)
         {
             var result = new List<ProcessedCweCapec>();
             //Проверка на передачу пустых списков (мало ли)
@@ -114,7 +114,7 @@ namespace CognitiveMaps.MAT.BL
                     {
                         //Проверка на существование текущего Cwe
                         //А также если в нашем результирующем списке еще нет текущего cwe
-                        if (!string.IsNullOrWhiteSpace(currentCwe) && !currentCwe.Equals("NVD-CWE-Other") && 
+                        if (!string.IsNullOrWhiteSpace(currentCwe) && !currentCwe.Equals("NVD-CWE-Other") &&
                             !result.Select(i => i.Cwe).Contains(currentCwe))
                         {
                             //Находим связь
@@ -142,7 +142,7 @@ namespace CognitiveMaps.MAT.BL
         /// <param name="currentCwe"> CWE </param>
         /// <param name="capecList"> Лист Capec, по которому ищем </param>
         /// <returns></returns>
-        private List<CapecEntity> FindRelationsCweCapec (string currentCwe, List<CapecEntity> capecList)
+        private List<CapecEntity> FindRelationsCweCapec(string currentCwe, List<CapecEntity> capecList)
         {
             var result = new List<CapecEntity>();
             foreach (var capec in capecList)
@@ -156,6 +156,74 @@ namespace CognitiveMaps.MAT.BL
         }
 
 
+        /// <summary>
+        /// Обработать Capec и получить только те, у которых есть TaxonomyMappings
+        /// </summary>
+        /// <param name="capecList"></param>
+        /// <returns></returns>
+        public List<CapecEntity> GetProcessedCapecTaxonomies(List<ProcessedCweCapec> cweCapecs)
+        {
+            var result = new List<CapecEntity>();
+            foreach (var capec in cweCapecs.SelectMany(i => i.CapecList))
+            {
+                if (!result.Select(i => i.Id).Contains(capec.Id))
+                {
+                    //Если у Capec есть привязанные исходящие от него сущности
+                    if (capec.TaxonomyMappings != null && capec.TaxonomyMappings.Count != 0)
+                    {
+                        result.Add(capec);
+                    }
+                }
+            }
+            return result;
+        }
+
+
+        public DataTable GetCapecTaxonomiesDataTable(List<CapecEntity> capecList)
+        {
+            var result = new DataTable("CapecTaxonomies");
+            DataColumn column;
+            DataRow row;
+
+            //1
+            column = new DataColumn();
+            column.DataType = Type.GetType("System.String");
+            column.ColumnName = "CapecId";
+            column.ReadOnly = true;
+            column.Unique = false;
+            column.AutoIncrement = false;
+            result.Columns.Add(column);
+
+            //2
+            column = new DataColumn();
+            column.DataType = Type.GetType("System.String");
+            column.ColumnName = "Taxonomies";
+            column.AutoIncrement = false;
+            column.ReadOnly = false;
+            column.Unique = false;
+            result.Columns.Add(column);
+
+            foreach (var capec in capecList)
+            {
+                row = result.NewRow();
+                row["CapecId"] = capec.Id;
+                row["Taxonomies"] = GetTaxonomies(capec);
+                result.Rows.Add(row);
+            }
+            return result;
+        }
+
+        private string GetTaxonomies(CapecEntity capec)
+        {
+            string result = string.Empty;
+            foreach (var tax in capec.TaxonomyMappings)
+            {
+                result += tax.Name + " Id " + tax.EntryId+", ";
+            }
+            if (result[result.Length - 2] == ',' && result[result.Length-1] == ' ')
+                result = result.Remove(result.Length - 2);
+            return result;
+        }
 
         /*
         public void CreateGraph()
