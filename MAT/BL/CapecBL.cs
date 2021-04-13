@@ -159,7 +159,7 @@ namespace CognitiveMaps.MAT.BL
             {
                 result.Add(new CapecEntity
                 {
-                    Id = Convert.ToString(pattern.ID),
+                    Id = "Capec-"+Convert.ToString(pattern.ID),
                     Description = FillDescription(pattern),
                     LikelihoodAttack = string.IsNullOrEmpty(pattern.Items[GetIndexByType(pattern, ItemsChoiceType.Likelihood_Of_Attack)] as string) ? 
                         string.Empty : pattern.Items[GetIndexByType(pattern, ItemsChoiceType.Likelihood_Of_Attack)].ToString(),

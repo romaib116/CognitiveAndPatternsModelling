@@ -225,23 +225,69 @@ namespace CognitiveMaps.MAT.BL
             return result;
         }
 
-        /*
-        public void CreateGraph()
+        
+        public void CreateGraph(List<CommonVulnerability> userList, List<ProcessedCweCapec> processedCweCapecs, List<CapecEntity> capecTaxList = null)
         {
             AdjacencyGraph<string, Edge<string>> graph = new AdjacencyGraph<string, Edge<string>>(true);
+            //Создаем вершины Bdu, Cve
+            CreateVetrices(graph, userList.Select(i => i.Id).ToList());
+            //Создаем CWE
+            foreach (var cwe in userList.Select(i => i.Cwe))
+                CreateVetrices(graph, cwe);
+            //Создаем Capec только те, у которых есть связи с CWE
+            foreach (var capec in processedCweCapecs.Select(i => i.CapecList))
+                CreateVetrices(graph, capec.Select(i => i.Id).ToList());
+            //Создаем связи от Capec
+            if (capecTaxList != null)
+                foreach (var tax in capecTaxList.Select(i => i.TaxonomyMappings))
+                    CreateVetrices(graph, tax.Select(i => i.Name +" Id " + i.EntryId).ToList());
 
-            graph.AddVertex("A");
-            graph.AddVertex("B");
-            graph.AddVertex("C");
-            graph.AddVertex("D");
-            
-            graph.AddEdge(new Edge<string>("A", "D"));
-            graph.AddEdge(new Edge<string>("B", "D"));
-            graph.AddEdge(new Edge<string>("C", "D"));
-            graph.AddEdge(new Edge<string>("D", "D"));
+
+            //Начинаем соединять вершины
+            //CVE/BDU - CWE
+            foreach (var cveBduCwe in userList)
+                CreateEdges(graph, cveBduCwe.Id, cveBduCwe.Cwe);
+            //Cwe - Capec
+            foreach (var cweCapecs in processedCweCapecs)
+                CreateEdges(graph, cweCapecs.Cwe, cweCapecs.CapecList.Select(i => i.Id).ToList());
+            if (capecTaxList != null)
+                //Capec - другие систремы
+                foreach (var capecTax in capecTaxList)
+                    CreateEdges(graph, capecTax.Id, capecTax.TaxonomyMappings.Select(i => i.Name + " Id " + i.EntryId).ToList());
+
+
+
             Visualizer.Visualize(graph, "somefile");
             //pictureBox1.ImageLocation = @"c:\temp\somefile.jpg";
         }
-        */
+        
+
+        /// <summary>
+        /// Создать вершины графа
+        /// </summary>
+        /// <param name="graph"></param>
+        /// <param name="vertices"></param>
+        private void CreateVetrices (AdjacencyGraph<string, Edge<string>> graph, List<string> vertices)
+        {
+            foreach (var vertex in vertices)
+            {
+                if (!graph.Vertices.Contains(vertex))
+                    graph.AddVertex(vertex);
+            }
+        }
+
+        /// <summary>
+        /// Соединение вершин
+        /// </summary>
+        /// <param name="graph"> граф </param>
+        /// <param name="verticesFrom"> ИЗ каких вершин соединение </param>
+        /// <param name="verticesTo"> В какие вершины соединяем </param>
+        private void CreateEdges(AdjacencyGraph<string, Edge<string>> graph, string vertexFrom, List<string> verticesTo)
+        {
+            foreach (var vertexTo in verticesTo)
+            {
+                graph.AddEdge(new Edge<string>(vertexFrom, vertexTo));
+            }
+        }
     }
 }
