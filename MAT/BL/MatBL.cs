@@ -254,8 +254,14 @@ namespace CognitiveMaps.MAT.BL
             return result;
         }
 
-        
-        public void CreateGraph(List<CommonVulnerability> userList, List<ProcessedCweCapec> processedCweCapecs, List<CapecEntity> capecTaxList = null)
+        /// <summary>
+        /// Создать граф
+        /// </summary>
+        /// <param name="userList"></param>
+        /// <param name="processedCweCapecs"></param>
+        /// <param name="capecTaxList"></param>
+        /// <returns> Возвращает путь к изображению </returns>
+        public string CreateGraph(List<CommonVulnerability> userList, List<ProcessedCweCapec> processedCweCapecs, List<CapecEntity> capecTaxList = null)
         {
             AdjacencyGraph<string, Edge<string>> graph = new AdjacencyGraph<string, Edge<string>>(true);
             //Создаем вершины Bdu, Cve
@@ -297,9 +303,10 @@ namespace CognitiveMaps.MAT.BL
                     CreateEdges(graph, capec.Id, capec.TaxonomyMappings.Select(i => i.Name + " Id " + i.EntryId).ToList());
 
 
-
-            Visualizer.Visualize(graph, "somefile");
-            //pictureBox1.ImageLocation = @"c:\temp\somefile.jpg";
+            var fileName = "VulnsAttacksGraph";
+            Visualizer.Visualize(graph, fileName);
+            System.Threading.Thread.Sleep(500);
+            return string.Format(@"C:\temp\{0}.jpg", fileName);
         }
         
 

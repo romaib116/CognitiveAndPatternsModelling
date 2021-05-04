@@ -14,7 +14,6 @@ C:\Users\Roman\source\repos\CognitiveMaps\obj\Debug\net5.0-windows\CognitiveMaps
 C:\Users\Roman\source\repos\CognitiveMaps\obj\Debug\net5.0-windows\ref\CognitiveMaps.dll
 C:\Users\Roman\source\repos\CognitiveMaps\obj\Debug\net5.0-windows\CognitiveMaps.pdb
 C:\Users\Roman\source\repos\CognitiveMaps\obj\Debug\net5.0-windows\CognitiveMaps.genruntimeconfig.cache
-C:\Users\Roman\source\repos\CognitiveMaps\obj\Debug\net5.0-windows\CognitiveMaps.csprojAssemblyReference.cache
 C:\Users\Roman\source\repos\CognitiveMaps\obj\Debug\net5.0-windows\CognitiveMaps.Properties.Resources.resources
 C:\Users\Roman\source\repos\CognitiveMaps\bin\Debug\net5.0-windows\Graphviz.dll
 C:\Users\Roman\source\repos\CognitiveMaps\bin\Debug\net5.0-windows\QuickGraph.Data.dll
@@ -32,3 +31,4 @@ C:\Users\Roman\source\repos\CognitiveMaps\bin\Debug\net5.0-windows\System.Text.E
 C:\Users\Roman\source\repos\CognitiveMaps\bin\Debug\net5.0-windows\runtimes\win\lib\netcoreapp2.0\System.Text.Encoding.CodePages.dll
 C:\Users\Roman\source\repos\CognitiveMaps\obj\Debug\net5.0-windows\CognitiveMaps.MAT.Views.DetailView.resources
 C:\Users\Roman\source\repos\CognitiveMaps\obj\Debug\net5.0-windows\CognitiveMaps.Views.VulnerabilityView.resources
+C:\Users\Roman\source\repos\CognitiveMaps\obj\Debug\net5.0-windows\CognitiveMaps.Helpers.ZoomPictureBox.resources

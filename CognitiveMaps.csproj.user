@@ -4,6 +4,9 @@
     <ShowAllFiles>false</ShowAllFiles>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Update="Helpers\ZoomPictureBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="MAT\Views\DetailView.cs">
       <SubType>Form</SubType>
     </Compile>
