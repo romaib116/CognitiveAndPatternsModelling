@@ -3,7 +3,7 @@
 namespace CognitiveMaps.MAT.Models
 {
     /// <summary>
-    /// Сущность Cwe - Capec
+    /// Сущность Cwe - CAPECs
     /// </summary>
     public class ProcessedCweCapec
     {

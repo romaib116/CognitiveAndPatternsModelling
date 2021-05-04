@@ -18,7 +18,7 @@ namespace CognitiveMaps.MAT.BL
     /// </summary>
     public class MatBL
     {
-        public DataTable GetUserDataTable(List<CommonVulnerability> vulnList)
+        public DataTable GetVulnsDataTable(List<CommonVulnerability> vulnList)
         {
             var result = new DataTable("UserVulns");
             DataColumn column;
@@ -77,7 +77,7 @@ namespace CognitiveMaps.MAT.BL
             //2
             column = new DataColumn();
             column.DataType = Type.GetType("System.String");
-            column.ColumnName = "Capec";
+            column.ColumnName = "CAPEC";
             column.AutoIncrement = false;
             column.ReadOnly = false;
             column.Unique = false;
@@ -87,7 +87,7 @@ namespace CognitiveMaps.MAT.BL
             {
                 row = result.NewRow();
                 row["CWE"] = cweCapec.Cwe;
-                row["Capec"] = String.Join(", ", cweCapec.CapecList.Select(i => i.Id));
+                row["CAPEC"] = String.Join(", ", cweCapec.CapecList.Select(i => i.Id));
                 result.Rows.Add(row);
             }
             return result;
@@ -95,19 +95,19 @@ namespace CognitiveMaps.MAT.BL
 
 
         /// <summary>
-        /// Получаем связи между пользовательскими CWE и Capec
+        /// Получаем связи между пользовательскими CWE и CAPEC
         /// </summary>
         /// <param name="userList"> Пользовательски список уязвимостей </param>
-        /// <param name="capecList"> Лист Capec </param>
+        /// <param name="capecList"> Лист CAPEC </param>
         /// <returns></returns>
-        public List<ProcessedCweCapec> GetProcessedCweCapecs(List<CommonVulnerability> userList, List<CapecEntity> capecList)
+        public List<ProcessedCweCapec> GetProcessedCweCapecs(List<CommonVulnerability> vulnList, List<CapecEntity> capecList)
         {
             var result = new List<ProcessedCweCapec>();
             //Проверка на передачу пустых списков (мало ли)
-            if (userList != null && capecList != null)
+            if (vulnList != null && capecList != null)
             {
                 //Перебираем по каждой пользовательской уязвимости
-                foreach (var vuln in userList)
+                foreach (var vuln in vulnList)
                 {
                     //Заходим в каждый CWE, для того чтобы от него построить связь до Capec'ов
                     foreach (var currentCwe in vuln.Cwe)
@@ -117,16 +117,29 @@ namespace CognitiveMaps.MAT.BL
                         if (!string.IsNullOrWhiteSpace(currentCwe) && !currentCwe.Equals("NVD-CWE-Other") &&
                             !result.Select(i => i.Cwe).Contains(currentCwe))
                         {
-                            //Находим связь
+                            //Находим связи от CWE к CAPEC
                             var capecs = FindRelationsCweCapec(currentCwe, capecList);
                             //Если она есть
                             if (capecs.Count != 0)
                             {
-                                result.Add(new ProcessedCweCapec
+                                /* Начинаем отсеивать слабосвязанные CAPEC
+                                 * Слабые - имеющие одну связь и то дочернюю
+                                 * (иначе список связей от текущего CWE может быть велик)
+                                 */
+                                var oldCapecs = new List<CapecEntity>(capecs);
+                                foreach (var capec in oldCapecs)
                                 {
-                                    Cwe = currentCwe,
-                                    CapecList = capecs
-                                });
+                                    if (capec.RelatedAttackPatterns != null && capec.RelatedAttackPatterns.Count != 0)
+                                        if (capec.RelatedAttackPatterns.Count == 1 && capec.RelatedAttackPatterns.Any(x => x.Nature.Contains("ChildOf")))
+                                            capecs.Remove(capec);
+                                }
+                                //Если после проведенных процедур ещё остались CAPEC
+                                if (capecs.Count != 0)
+                                    result.Add(new ProcessedCweCapec
+                                    {
+                                        Cwe = currentCwe,
+                                        CapecList = capecs
+                                    });
                             }
                         }
                     }
@@ -170,10 +183,25 @@ namespace CognitiveMaps.MAT.BL
                 {
                     //Если у Capec есть привязанные исходящие от него сущности
                     if (capec.TaxonomyMappings != null && capec.TaxonomyMappings.Count != 0)
-                    {
                         result.Add(capec);
-                    }
                 }
+            }
+            //OWASP не имеет ИДов, избавляемся от них
+            if (result.Count != 0)
+            {
+                var oldResult = new List<CapecEntity>(result);
+                foreach (var capec in oldResult)
+                {
+                    var oldTax = new List<Models.Capec.TaxonomyMapping>(capec.TaxonomyMappings);
+                    foreach (var tax in oldTax)
+                    {
+                        if (tax.Name.Contains("OWASP"))
+                            capec.TaxonomyMappings.Remove(tax);
+                    }
+                    if (capec.TaxonomyMappings.Count == 0)
+                        result.Remove(capec);
+                }
+
             }
             return result;
         }
@@ -218,10 +246,11 @@ namespace CognitiveMaps.MAT.BL
             string result = string.Empty;
             foreach (var tax in capec.TaxonomyMappings)
             {
-                result += tax.Name + " Id " + tax.EntryId+", ";
+                result +=tax.Name + " Id " + tax.EntryId + ", ";
             }
-            if (result[result.Length - 2] == ',' && result[result.Length-1] == ' ')
-                result = result.Remove(result.Length - 2);
+            if (result.Length != 0)
+                if (result[result.Length - 2] == ',' && result[result.Length-1] == ' ')
+                    result = result.Remove(result.Length - 2);
             return result;
         }
 
@@ -231,29 +260,41 @@ namespace CognitiveMaps.MAT.BL
             AdjacencyGraph<string, Edge<string>> graph = new AdjacencyGraph<string, Edge<string>>(true);
             //Создаем вершины Bdu, Cve
             CreateVetrices(graph, userList.Select(i => i.Id).ToList());
+
             //Создаем CWE
             foreach (var cwe in userList.Select(i => i.Cwe))
                 CreateVetrices(graph, cwe);
+
             //Создаем Capec только те, у которых есть связи с CWE
-            foreach (var capec in processedCweCapecs.Select(i => i.CapecList))
-                CreateVetrices(graph, capec.Select(i => i.Id).ToList());
+            foreach (var capecs in processedCweCapecs.Select(i => i.CapecList))
+                foreach (var capec in capecs)
+                    CreateVetrices(graph, new List<string>() { capec.Id });
+
             //Создаем связи от Capec
             if (capecTaxList != null)
-                foreach (var tax in capecTaxList.Select(i => i.TaxonomyMappings))
-                    CreateVetrices(graph, tax.Select(i => i.Name +" Id " + i.EntryId).ToList());
+                foreach (var capec in capecTaxList)
+                    foreach (var tax in capec.TaxonomyMappings)
+                        CreateVetrices(graph, new List<string>() { string.Format(tax.Name + " Id " + tax.EntryId) });
 
 
             //Начинаем соединять вершины
+
+
             //CVE/BDU - CWE
             foreach (var cveBduCwe in userList)
                 CreateEdges(graph, cveBduCwe.Id, cveBduCwe.Cwe);
-            //Cwe - Capec
+
+
+            //CWE - CAPEC
             foreach (var cweCapecs in processedCweCapecs)
-                CreateEdges(graph, cweCapecs.Cwe, cweCapecs.CapecList.Select(i => i.Id).ToList());
+                foreach (var capec in cweCapecs.CapecList)
+                    CreateEdges(graph, cweCapecs.Cwe, new List<string>() { capec.Id});
+
+
+            //CAPEC - Others
             if (capecTaxList != null)
-                //Capec - другие систремы
-                foreach (var capecTax in capecTaxList)
-                    CreateEdges(graph, capecTax.Id, capecTax.TaxonomyMappings.Select(i => i.Name + " Id " + i.EntryId).ToList());
+                foreach (var capec in capecTaxList)
+                    CreateEdges(graph, capec.Id, capec.TaxonomyMappings.Select(i => i.Name + " Id " + i.EntryId).ToList());
 
 
 
@@ -286,7 +327,9 @@ namespace CognitiveMaps.MAT.BL
         {
             foreach (var vertexTo in verticesTo)
             {
-                graph.AddEdge(new Edge<string>(vertexFrom, vertexTo));
+                //Если есть откуда строить
+                if (graph.ContainsVertex(vertexFrom))
+                    graph.AddEdge(new Edge<string>(vertexFrom, vertexTo));
             }
         }
     }
