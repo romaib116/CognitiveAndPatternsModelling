@@ -32,3 +32,4 @@ C:\Users\Roman\source\repos\CognitiveMaps\bin\Debug\net5.0-windows\runtimes\win\
 C:\Users\Roman\source\repos\CognitiveMaps\obj\Debug\net5.0-windows\CognitiveMaps.MAT.Views.DetailView.resources
 C:\Users\Roman\source\repos\CognitiveMaps\obj\Debug\net5.0-windows\CognitiveMaps.Views.VulnerabilityView.resources
 C:\Users\Roman\source\repos\CognitiveMaps\obj\Debug\net5.0-windows\CognitiveMaps.Helpers.ZoomPictureBox.resources
+C:\Users\Roman\source\repos\CognitiveMaps\obj\Debug\net5.0-windows\CognitiveMaps.csprojAssemblyReference.cache

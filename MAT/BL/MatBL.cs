@@ -1,13 +1,9 @@
-﻿using CognitiveMaps.MAT.Interfaces;
-using QuickGraph;
-using QuickGraph.Graphviz;
-using CognitiveMaps.Helpers;
-using System.IO;
+﻿using CognitiveMaps.Helpers;
 using CognitiveMaps.MAT.Models;
-using Newtonsoft.Json;
-using System.Data;
+using QuickGraph;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 
 namespace CognitiveMaps.MAT.BL
@@ -18,6 +14,22 @@ namespace CognitiveMaps.MAT.BL
     /// </summary>
     public class MatBL
     {
+        public string ReportFileName 
+        {
+            get
+            {
+                return "ReportGraph";
+            }
+        }
+
+        public string ReportFilePath
+        {
+            get
+            {
+                return string.Format(@"C:\temp\{0}.jpg", ReportFileName);
+            }
+        }
+
         public DataTable GetVulnsDataTable(List<CommonVulnerability> vulnList)
         {
             var result = new DataTable("UserVulns");
@@ -255,15 +267,35 @@ namespace CognitiveMaps.MAT.BL
         }
 
         /// <summary>
-        /// Создать граф
+        /// Метод обновления (создания) графа
+        /// </summary>
+        /// <param name="graph"></param>
+        /// <param name="userList"></param>
+        /// <param name="processedCweCapecs"></param>
+        /// <param name="capecTaxList"></param>
+        /// <returns></returns>
+        public AdjacencyGraph<string, Edge<string>> RefreshGraph(AdjacencyGraph<string, Edge<string>> graph, List<CommonVulnerability> userList, List<ProcessedCweCapec> processedCweCapecs, List<CapecEntity> capecTaxList = null)
+        {
+            //Если передается пустой граф, то создаем его по обработанным спискам
+            if (graph == null)
+                graph = CreateGraph(userList, processedCweCapecs, capecTaxList);
+            Visualizer.Visualize(graph, ReportFileName);
+            System.Threading.Thread.Sleep(500);
+            return graph;
+        }
+
+
+        /// <summary>
+        /// Создать граф (если в родительский метод передан пустой граф)
         /// </summary>
         /// <param name="userList"></param>
         /// <param name="processedCweCapecs"></param>
         /// <param name="capecTaxList"></param>
-        /// <returns> Возвращает путь к изображению </returns>
-        public string CreateGraph(List<CommonVulnerability> userList, List<ProcessedCweCapec> processedCweCapecs, List<CapecEntity> capecTaxList = null)
+        /// <returns> Возвращает граф </returns>
+        private AdjacencyGraph<string , Edge<string>> CreateGraph(List<CommonVulnerability> userList, List<ProcessedCweCapec> processedCweCapecs, List<CapecEntity> capecTaxList = null)
         {
             AdjacencyGraph<string, Edge<string>> graph = new AdjacencyGraph<string, Edge<string>>(true);
+
             //Создаем вершины Bdu, Cve
             CreateVetrices(graph, userList.Select(i => i.Id).ToList());
 
@@ -290,25 +322,20 @@ namespace CognitiveMaps.MAT.BL
             foreach (var cveBduCwe in userList)
                 CreateEdges(graph, cveBduCwe.Id, cveBduCwe.Cwe);
 
-
             //CWE - CAPEC
             foreach (var cweCapecs in processedCweCapecs)
                 foreach (var capec in cweCapecs.CapecList)
                     CreateEdges(graph, cweCapecs.Cwe, new List<string>() { capec.Id});
-
 
             //CAPEC - Others
             if (capecTaxList != null)
                 foreach (var capec in capecTaxList)
                     CreateEdges(graph, capec.Id, capec.TaxonomyMappings.Select(i => i.Name + " Id " + i.EntryId).ToList());
 
-
-            var fileName = "VulnsAttacksGraph";
-            Visualizer.Visualize(graph, fileName);
-            System.Threading.Thread.Sleep(500);
-            return string.Format(@"C:\temp\{0}.jpg", fileName);
+            return graph;
         }
-        
+
+
 
         /// <summary>
         /// Создать вершины графа
@@ -334,10 +361,11 @@ namespace CognitiveMaps.MAT.BL
         {
             foreach (var vertexTo in verticesTo)
             {
-                //Если есть откуда строить
-                if (graph.ContainsVertex(vertexFrom))
+                //Если есть откуда и куда строить
+                if (graph.ContainsVertex(vertexFrom) && graph.ContainsVertex(vertexTo))
                     graph.AddEdge(new Edge<string>(vertexFrom, vertexTo));
             }
         }
+
     }
 }
