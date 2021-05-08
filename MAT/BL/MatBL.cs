@@ -126,7 +126,7 @@ namespace CognitiveMaps.MAT.BL
                     {
                         //Проверка на существование текущего Cwe
                         //А также если в нашем результирующем списке еще нет текущего cwe
-                        if (!string.IsNullOrWhiteSpace(currentCwe) && !currentCwe.Equals("NVD-CWE-Other") &&
+                        if (!string.IsNullOrWhiteSpace(currentCwe) && !currentCwe.Contains("NVD") &&
                             !result.Select(i => i.Cwe).Contains(currentCwe))
                         {
                             //Находим связи от CWE к CAPEC
@@ -319,6 +319,7 @@ namespace CognitiveMaps.MAT.BL
 
 
             //CVE/BDU - CWE
+
             foreach (var cveBduCwe in userList)
                 CreateEdges(graph, cveBduCwe.Id, cveBduCwe.Cwe);
 
@@ -331,6 +332,25 @@ namespace CognitiveMaps.MAT.BL
             if (capecTaxList != null)
                 foreach (var capec in capecTaxList)
                     CreateEdges(graph, capec.Id, capec.TaxonomyMappings.Select(i => i.Name + " Id " + i.EntryId).ToList());
+
+            //Чистка неиспользуемых вершин CVE/BDU
+            foreach (var vertexOut in graph.Vertices.Where(x => x.Contains("CVE") || x.Contains("BDU")))
+            {
+                var haveEdge = false;
+                foreach (var vertexIn in graph.Vertices)
+                {
+                    if (graph.ContainsEdge(vertexOut, vertexIn))
+                    {
+                        haveEdge = true;
+                        break;
+                    }    
+                }
+                if (!haveEdge)
+                    graph.RemoveVertex(vertexOut);
+            }
+
+                    
+
 
             return graph;
         }
@@ -346,7 +366,7 @@ namespace CognitiveMaps.MAT.BL
         {
             foreach (var vertex in vertices)
             {
-                if (!graph.Vertices.Contains(vertex))
+                if (!graph.Vertices.Contains(vertex) && !string.IsNullOrWhiteSpace(vertex) && !vertex.Contains("NVD"))
                     graph.AddVertex(vertex);
             }
         }
