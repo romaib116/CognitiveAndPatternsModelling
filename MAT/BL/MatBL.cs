@@ -42,7 +42,7 @@ namespace CognitiveMaps.MAT.BL
             column.ColumnName = "Идентификатор";
             column.ReadOnly = true;
             column.AutoIncrement = false;
-            column.Unique = true;
+            column.Unique = false;
             result.Columns.Add(column);
 
             //5
@@ -63,10 +63,7 @@ namespace CognitiveMaps.MAT.BL
                     row["CWE"] = String.Join(", ", vuln.Cwe);
                     result.Rows.Add(row);
                 }
-                catch
-                {
-                    throw new DuplicateNameException("Нельзя создавать дубликаты");
-                }
+                catch { };
             }
             return result;
         }
