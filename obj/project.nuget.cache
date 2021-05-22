@@ -1,9 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "81pWO4erUlYjGtIBgXF82L/ofhxtmh7OL1GwuKJ3k87y6nUUqSuO0V28idlSRfU7q4ysmjaCkAiMpbkaQYvfPg==",
+  "dgSpecHash": "u4sB75dV+h4DnW3S3boSLWqJ0hzLyxk8H275UKDZGYknrf4acIRvruMFru5j9I33JvrMBvWqAx0x7u8w7Ly9Bg==",
   "success": true,
   "projectFilePath": "C:\\Users\\Roman\\source\\repos\\CognitiveMaps\\CognitiveMaps.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Roman\\.nuget\\packages\\accord\\3.8.2-alpha\\accord.3.8.2-alpha.nupkg.sha512",
+    "C:\\Users\\Roman\\.nuget\\packages\\accord.controls\\3.8.2-alpha\\accord.controls.3.8.2-alpha.nupkg.sha512",
+    "C:\\Users\\Roman\\.nuget\\packages\\accord.machinelearning\\3.8.2-alpha\\accord.machinelearning.3.8.2-alpha.nupkg.sha512",
+    "C:\\Users\\Roman\\.nuget\\packages\\accord.math\\3.8.2-alpha\\accord.math.3.8.2-alpha.nupkg.sha512",
+    "C:\\Users\\Roman\\.nuget\\packages\\accord.statistics\\3.8.2-alpha\\accord.statistics.3.8.2-alpha.nupkg.sha512",
     "C:\\Users\\Roman\\.nuget\\packages\\exceldatareader\\3.7.0-develop00306\\exceldatareader.3.7.0-develop00306.nupkg.sha512",
     "C:\\Users\\Roman\\.nuget\\packages\\exceldatareader.dataset\\3.7.0-develop00306\\exceldatareader.dataset.3.7.0-develop00306.nupkg.sha512",
     "C:\\Users\\Roman\\.nuget\\packages\\graphviz\\2.38.0.2\\graphviz.2.38.0.2.nupkg.sha512",
@@ -11,9 +16,20 @@
     "C:\\Users\\Roman\\.nuget\\packages\\newtonsoft.json\\13.0.1-beta1\\newtonsoft.json.13.0.1-beta1.nupkg.sha512",
     "C:\\Users\\Roman\\.nuget\\packages\\quickgraph\\3.6.61119.7\\quickgraph.3.6.61119.7.nupkg.sha512",
     "C:\\Users\\Roman\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0-preview.1.21102.12\\system.runtime.compilerservices.unsafe.6.0.0-preview.1.21102.12.nupkg.sha512",
-    "C:\\Users\\Roman\\.nuget\\packages\\system.text.encoding.codepages\\6.0.0-preview.1.21102.12\\system.text.encoding.codepages.6.0.0-preview.1.21102.12.nupkg.sha512"
+    "C:\\Users\\Roman\\.nuget\\packages\\system.text.encoding.codepages\\6.0.0-preview.1.21102.12\\system.text.encoding.codepages.6.0.0-preview.1.21102.12.nupkg.sha512",
+    "C:\\Users\\Roman\\.nuget\\packages\\zedgraph\\5.1.7\\zedgraph.5.1.7.nupkg.sha512"
   ],
   "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Пакет \"Accord.Controls 3.8.2-alpha\" был восстановлен с помощью \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8\", а не целевой платформы проекта \"net5.0-windows7.0\". Этот пакет может быть не полностью совместим с вашим проектом.",
+      "libraryId": "Accord.Controls",
+      "targetGraphs": [
+        "net5.0-windows7.0"
+      ]
+    },
     {
       "code": "NU1701",
       "level": "Warning",
@@ -30,6 +46,16 @@
       "warningLevel": 1,
       "message": "Пакет \"QuickGraph 3.6.61119.7\" был восстановлен с помощью \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8\", а не целевой платформы проекта \"net5.0-windows7.0\". Этот пакет может быть не полностью совместим с вашим проектом.",
       "libraryId": "QuickGraph",
+      "targetGraphs": [
+        "net5.0-windows7.0"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Пакет \"ZedGraph 5.1.7\" был восстановлен с помощью \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8\", а не целевой платформы проекта \"net5.0-windows7.0\". Этот пакет может быть не полностью совместим с вашим проектом.",
+      "libraryId": "ZedGraph",
       "targetGraphs": [
         "net5.0-windows7.0"
       ]

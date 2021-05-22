@@ -31,10 +31,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="FCM\Models\" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="Accord" Version="3.8.2-alpha" />
+    <PackageReference Include="Accord.Controls" Version="3.8.2-alpha" />
     <PackageReference Include="ExcelDataReader" Version="3.7.0-develop00306" />
     <PackageReference Include="ExcelDataReader.DataSet" Version="3.7.0-develop00306" />
     <PackageReference Include="Graphviz" Version="2.38.0.2">

@@ -67,7 +67,7 @@ namespace CognitiveMaps.MAT.Models.RawDataTypes.CapecXml
 
 
     /// <summary>
-    /// Классы описатывающие структуру CapecXML
+    /// Классы описывающие структуру CapecXML
     /// </summary>
 
 

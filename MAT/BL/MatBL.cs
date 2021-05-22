@@ -4,6 +4,7 @@ using QuickGraph;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 
 namespace CognitiveMaps.MAT.BL
@@ -131,17 +132,17 @@ namespace CognitiveMaps.MAT.BL
                             //Если она есть
                             if (capecs.Count != 0)
                             {
-                                /* Начинаем отсеивать слабосвязанные CAPEC
-                                 * Слабые - имеющие одну связь и то дочернюю
-                                 * (иначе список связей от текущего CWE может быть велик)
-                                 */
-                                var oldCapecs = new List<CapecEntity>(capecs);
-                                foreach (var capec in oldCapecs)
-                                {
-                                    if (capec.RelatedAttackPatterns != null && capec.RelatedAttackPatterns.Count != 0)
-                                        if (capec.RelatedAttackPatterns.Count == 1 && capec.RelatedAttackPatterns.Any(x => x.Nature.Contains("ChildOf")))
-                                            capecs.Remove(capec);
-                                }
+                                ///* Начинаем отсеивать слабосвязанные CAPEC
+                                // * Слабые - имеющие одну связь и то дочернюю
+                                // * (иначе список связей от текущего CWE может быть велик)
+                                // */
+                                //var oldCapecs = new List<CapecEntity>(capecs);
+                                //foreach (var capec in oldCapecs)
+                                //{
+                                //    if (capec.RelatedAttackPatterns != null && capec.RelatedAttackPatterns.Count != 0)
+                                //        if (capec.RelatedAttackPatterns.Count == 1 && capec.RelatedAttackPatterns.Any(x => x.Nature.Contains("ChildOf")))
+                                //            capecs.Remove(capec);
+                                //}
                                 //Если после проведенных процедур ещё остались CAPEC
                                 if (capecs.Count != 0)
                                     result.Add(new ProcessedCweCapec
@@ -346,12 +347,8 @@ namespace CognitiveMaps.MAT.BL
                     graph.RemoveVertex(vertexOut);
             }
 
-                    
-
-
             return graph;
         }
-
 
 
         /// <summary>
@@ -384,5 +381,105 @@ namespace CognitiveMaps.MAT.BL
             }
         }
 
+        public List<TwoConceptWithWeight> GetConceptsWithWeight (List<CweEntity> cweList, List<ProcessedCweCapec> cweCapecsList)
+        {
+            var result = new List<TwoConceptWithWeight>();
+            //Путь к файлу изначальному (cwe-123;descr;capec-123;descrip)
+            var filePathConceptsWithDescriptions = string.Format(@"C:/temp/temp.txt");
+            //Путь к файлу с весами (cwe-123;capec-123;0.6)
+            var filePathConceptsWithWeights = string.Format(@"C:/temp/weights.txt");
+            //Создаем/Очищаем оба файла
+            File.WriteAllText(filePathConceptsWithDescriptions, string.Empty);
+            File.WriteAllText(filePathConceptsWithWeights, string.Empty);
+
+            foreach (var cweCapecs in cweCapecsList)
+            {
+
+                foreach (var capec in cweCapecs.CapecList)
+                {
+                    // Инициализация строки в которую будет идти запись концептов и их описаний
+                    var line = string.Empty;
+                    //Формирование строки
+                    line += cweCapecs.Cwe + ";";
+                    line += cweList.Where(x => x.Id == cweCapecs.Cwe).First().Description + ";";
+                    line += capec.Id + ";";
+                    line += capec.Description;
+
+                    //Строка сформирована, начинаем запись текущей строки в файл
+                    using (StreamWriter sw = new StreamWriter(filePathConceptsWithDescriptions, true, System.Text.Encoding.UTF8))
+                        sw.WriteLine(line);
+                }
+            }
+            //Текстовый файл сформирован
+
+            //[Здесь должен быть вызов внешней подпрограммы находящей связи]
+
+            System.Threading.Thread.Sleep(5000);
+            //Чтение сформированного файла с весами
+            using (StreamReader sr = new StreamReader(filePathConceptsWithWeights, System.Text.Encoding.UTF8))
+            {
+                string line;
+                //Пока есть откуда читать
+                while ((line = sr.ReadLine()) != null)
+                {
+                    // Разбиваем читаемую строку в массив, где [0] - откуда, [1] - куда, [2] - вес (double)
+                    var rawLine = line.Split(';');
+                    // Записываем в объектную модель
+                    result.Add(new TwoConceptWithWeight
+                    {
+                        FromConcept = rawLine[0],
+                        ToConcept = rawLine[1],
+                        Weight = Convert.ToDouble(rawLine[2])
+                    });
+                }
+            }
+
+            return result;
+        }
+
+        public DataTable GetConceptsWithWeightDataTable (List<TwoConceptWithWeight> conceptsWithWeight)
+        {
+            var result = new DataTable("Weights");
+            DataColumn column;
+            DataRow row;
+
+            //1
+            column = new DataColumn();
+            column.DataType = Type.GetType("System.String");
+            column.ColumnName = "From";
+            column.ReadOnly = true;
+            column.Unique = false;
+            column.AutoIncrement = false;
+            result.Columns.Add(column);
+
+            //2
+            column = new DataColumn();
+            column.DataType = Type.GetType("System.String");
+            column.ColumnName = "To";
+            column.AutoIncrement = false;
+            column.ReadOnly = false;
+            column.Unique = false;
+            result.Columns.Add(column);
+
+            //3
+            column = new DataColumn();
+            column.DataType = Type.GetType("System.Double");
+            column.ColumnName = "Weight";
+            column.AutoIncrement = false;
+            column.ReadOnly = false;
+            column.Unique = false;
+            result.Columns.Add(column);
+
+            foreach (var conceptWithWeight in conceptsWithWeight)
+            {
+                row = result.NewRow();
+                row["From"] = conceptWithWeight.FromConcept;
+                row["To"] = conceptWithWeight.ToConcept;
+                row["Weight"] = conceptWithWeight.Weight;
+
+                result.Rows.Add(row);
+            }
+            return result;
+        }
     }
 }
